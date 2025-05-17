@@ -1,147 +1,134 @@
 
 import { useState } from "react";
-import { Upload, Trash2, Edit, QrCode } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, Trash2, Upload, VideoIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Mock data for demo purposes
-const mockVideos = [
-  { id: 1, title: "Grandpa John's Memorial", thumbnail: "/images/video-thumbnail-1.jpg" },
-  { id: 2, title: "Aunt Martha's Memories", thumbnail: "/images/video-thumbnail-2.jpg" },
-];
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 const VideoLibraryPage = () => {
-  const [videos, setVideos] = useState(mockVideos);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [videos, setVideos] = useState([
+    { id: 1, title: "Grandpa's 80th Birthday", thumbnail: "/placeholder.svg", assigned: true },
+    { id: 2, title: "Mom's Favorite Memories", thumbnail: "/placeholder.svg", assigned: false },
+    { id: 3, title: "Dad's Life Story", thumbnail: "/placeholder.svg", assigned: true },
+  ]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
-    // Simulate upload process
-    setIsUploading(true);
-    setUploadProgress(0);
-    
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        const newProgress = prev + 10;
-        if (newProgress >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            // Add new video after "upload" completes
-            const newVideo = {
-              id: Date.now(),
-              title: file.name.replace(/\.[^/.]+$/, ""),
-              thumbnail: "/images/video-thumbnail-3.jpg",
-            };
-            setVideos([...videos, newVideo]);
-            setIsUploading(false);
-          }, 500);
-          return 100;
-        }
-        return newProgress;
-      });
-    }, 500);
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
   };
 
-  const handleDelete = (id: number) => {
-    setVideos(videos.filter(video => video.id !== id));
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
 
   return (
-    <div className="pt-24 pb-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl gold-text font-bold mb-6">
-              Your EtherQR Video Library
-            </h1>
-            <p className="text-xl text-gray-300">
-              Upload and manage memorial videos for your loved ones
-            </p>
-          </div>
+    <div className="container mx-auto px-4 py-16 max-w-7xl">
+      <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }} 
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="inline-block mb-6"
+        >
+          <img src="/images/logo.svg" alt="EtherQR Logo" className="h-16 mx-auto mb-4" />
+          <h1 className="text-4xl md:text-5xl font-playfair text-gold font-bold tracking-wide">
+            Your Memory Collection
+          </h1>
+        </motion.div>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="text-lg text-gray-300 max-w-2xl mx-auto"
+        >
+          Upload, manage, and assign videos to your memorial QR codes. Each video preserves a precious memory for generations to come.
+        </motion.p>
+      </div>
 
-          {/* Upload Section */}
-          <div className="elegant-card p-6 md:p-8 mb-12 animate-fade-in">
-            <h2 className="text-xl font-playfair text-gold mb-6">Upload New Memorial Video</h2>
-            
-            <div className="border-2 border-dashed border-royal/40 rounded-lg p-6 text-center">
-              {isUploading ? (
-                <div className="space-y-4">
-                  <p className="text-gray-300">Uploading video...</p>
-                  <div className="w-full bg-marble-dark rounded-full h-4 overflow-hidden">
-                    <div 
-                      className="bg-gold h-full transition-all duration-300 ease-out"
-                      style={{ width: `${uploadProgress}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-sm text-gray-400">{uploadProgress}% complete</p>
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        {/* Upload New Video Card */}
+        <motion.div variants={item}>
+          <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold">
+            <CardContent className="pt-8 pb-2 flex flex-col items-center justify-center h-full text-center space-y-4">
+              <div className="h-16 w-16 rounded-full bg-royal/30 flex items-center justify-center mb-6">
+                <Upload className="h-8 w-8 text-gold" />
+              </div>
+              <CardTitle className="text-xl text-gold">Upload New Memory</CardTitle>
+              <p className="text-gray-400">
+                Add a new video memory (MP4 format, max 1GB)
+              </p>
+              <Button className="memorial-button-gold mt-6">
+                <Upload className="h-4 w-4 mr-2" />
+                Select Video
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Video Cards */}
+        {videos.map((video) => (
+          <motion.div key={video.id} variants={item}>
+            <Card className="video-card h-full flex flex-col">
+              <CardHeader className="pb-0 pt-6">
+                <CardTitle className="text-gold text-xl font-playfair">
+                  {video.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="py-4 flex-grow">
+                <div className="aspect-video bg-marble-dark/50 rounded flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-t from-marble-dark to-transparent opacity-70"></div>
+                  <VideoIcon className="h-12 w-12 text-royal-light/50" />
                 </div>
-              ) : (
-                <>
-                  <Upload className="h-12 w-12 text-royal-light mx-auto mb-4" />
-                  <p className="text-gray-300 mb-4">
-                    Drag and drop your video file here, or click to browse
-                  </p>
-                  <p className="text-sm text-gray-400 mb-6">
-                    Maximum file size: 1GB, MP4 format
-                  </p>
-                  <Button className="memorial-button relative">
-                    Select Video File
-                    <input 
-                      type="file" 
-                      accept="video/mp4" 
-                      className="absolute inset-0 opacity-0 cursor-pointer"
-                      onChange={handleFileChange}
-                    />
+                <div className="mt-4 text-sm text-gray-400">
+                  {video.assigned ? (
+                    <span className="flex items-center text-emerald-500">
+                      <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Assigned to QR #EQ-{1000 + video.id}
+                    </span>
+                  ) : (
+                    <span className="text-gray-500">Not assigned to any QR code</span>
+                  )}
+                </div>
+              </CardContent>
+              <CardFooter className="pt-0 pb-6 flex justify-between">
+                <Button variant="outline" className="text-red-500 border-red-500/20 hover:bg-red-950/20 hover:text-red-400">
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete
+                </Button>
+                {!video.assigned && (
+                  <Button className="memorial-button">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Assign to QR
                   </Button>
-                </>
-              )}
-            </div>
-          </div>
+                )}
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ))}
+      </motion.div>
 
-          {/* Video Management */}
-          <div className="animate-fade-in">
-            <h2 className="text-xl font-playfair text-gold mb-6">Your Memorial Videos</h2>
-            
-            {videos.length === 0 ? (
-              <div className="text-center elegant-card p-12">
-                <p className="text-gray-300">You haven't uploaded any videos yet.</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {videos.map(video => (
-                  <div key={video.id} className="video-card overflow-hidden">
-                    <div className="aspect-video bg-marble-dark relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-gray-400">Video Thumbnail</div>
-                      </div>
-                    </div>
-                    <div className="p-4 border-t border-royal/30">
-                      <h3 className="font-playfair text-white mb-3 truncate">{video.title}</h3>
-                      
-                      <div className="flex justify-between">
-                        <div className="flex space-x-2">
-                          <Button variant="ghost" size="icon" className="text-royal-light hover:text-gold">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" className="text-royal-light hover:text-destructive" onClick={() => handleDelete(video.id)}>
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        
-                        <Button className="text-gold flex items-center gap-1 text-sm hover:bg-royal/20">
-                          <QrCode className="h-4 w-4" />
-                          Generate QR
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+      <div className="text-center mt-16">
+        <Link to="/buy">
+          <Button className="memorial-button-gold inline-flex">
+            <Plus className="h-4 w-4 mr-2" />
+            Purchase New QR Code
+          </Button>
+        </Link>
       </div>
     </div>
   );
