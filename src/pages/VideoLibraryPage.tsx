@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Trash2, Upload, VideoIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
 
 const VideoLibraryPage = () => {
   const [videos, setVideos] = useState([
@@ -11,15 +12,77 @@ const VideoLibraryPage = () => {
     { id: 2, title: "Mom's Favorite Memories", thumbnail: "/placeholder.svg", assigned: false },
     { id: 3, title: "Dad's Life Story", thumbnail: "/placeholder.svg", assigned: true },
   ]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = (id: number) => {
     setVideos(videos.filter(video => video.id !== id));
+    toast({
+      title: "Video Deleted",
+      description: "The video has been removed from your library.",
+    });
   };
 
   const handleAssign = (id: number) => {
     setVideos(videos.map(video => 
       video.id === id ? { ...video, assigned: true } : video
     ));
+    toast({
+      title: "Video Assigned",
+      description: "The video has been assigned to a QR code.",
+    });
+  };
+
+  const triggerFileUpload = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    const file = files[0];
+    
+    // Validate file type
+    if (!file.type.includes('video/')) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please upload a video file (MP4, MOV, etc).",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Validate file size (max 1GB)
+    if (file.size > 1024 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: "Video size must be less than 1GB.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Create a new video entry
+    const newVideo = {
+      id: Math.max(0, ...videos.map(v => v.id)) + 1,
+      title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+      thumbnail: "/placeholder.svg",
+      assigned: false
+    };
+    
+    setVideos([...videos, newVideo]);
+    
+    toast({
+      title: "Video Uploaded",
+      description: `"${newVideo.title}" has been added to your library.`,
+    });
+    
+    // Reset the file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -36,9 +99,18 @@ const VideoLibraryPage = () => {
         </p>
       </div>
 
+      {/* Hidden file input */}
+      <input 
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        accept="video/*"
+        onChange={handleFileUpload}
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Upload New Video Card */}
-        <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold">
+        <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold cursor-pointer" onClick={triggerFileUpload}>
           <CardContent className="pt-8 pb-2 flex flex-col items-center justify-center h-full text-center space-y-4">
             <div className="h-16 w-16 rounded-full bg-royal/30 flex items-center justify-center mb-6">
               <Upload className="h-8 w-8 text-gold" />
@@ -47,7 +119,10 @@ const VideoLibraryPage = () => {
             <p className="text-gray-400">
               Add a new video memory (MP4 format, max 1GB)
             </p>
-            <Button className="bg-gold hover:bg-gold/80 text-black mt-6">
+            <Button className="bg-gold hover:bg-gold/80 text-black mt-6" onClick={(e) => {
+              e.stopPropagation();
+              triggerFileUpload();
+            }}>
               <Upload className="h-4 w-4 mr-2" />
               Select Video
             </Button>
