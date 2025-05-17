@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Plus, Trash2, Upload, VideoIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { motion } from "framer-motion";
 
 const VideoLibraryPage = () => {
   const [videos, setVideos] = useState([
@@ -13,118 +12,100 @@ const VideoLibraryPage = () => {
     { id: 3, title: "Dad's Life Story", thumbnail: "/placeholder.svg", assigned: true },
   ]);
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
+  const handleDelete = (id: number) => {
+    setVideos(videos.filter(video => video.id !== id));
   };
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  const handleAssign = (id: number) => {
+    setVideos(videos.map(video => 
+      video.id === id ? { ...video, assigned: true } : video
+    ));
   };
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-7xl">
       <div className="text-center mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }} 
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="inline-block mb-6"
-        >
+        <div className="inline-block mb-6">
           <img src="/images/logo.svg" alt="EtherQR Logo" className="h-16 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl font-playfair text-gold font-bold tracking-wide">
             Your Memory Collection
           </h1>
-        </motion.div>
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="text-lg text-gray-300 max-w-2xl mx-auto"
-        >
+        </div>
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto">
           Upload, manage, and assign videos to your memorial QR codes. Each video preserves a precious memory for generations to come.
-        </motion.p>
+        </p>
       </div>
 
-      <motion.div 
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Upload New Video Card */}
-        <motion.div variants={item}>
-          <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold">
-            <CardContent className="pt-8 pb-2 flex flex-col items-center justify-center h-full text-center space-y-4">
-              <div className="h-16 w-16 rounded-full bg-royal/30 flex items-center justify-center mb-6">
-                <Upload className="h-8 w-8 text-gold" />
-              </div>
-              <CardTitle className="text-xl text-gold">Upload New Memory</CardTitle>
-              <p className="text-gray-400">
-                Add a new video memory (MP4 format, max 1GB)
-              </p>
-              <Button className="memorial-button-gold mt-6">
-                <Upload className="h-4 w-4 mr-2" />
-                Select Video
-              </Button>
-            </CardContent>
-          </Card>
-        </motion.div>
+        <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold">
+          <CardContent className="pt-8 pb-2 flex flex-col items-center justify-center h-full text-center space-y-4">
+            <div className="h-16 w-16 rounded-full bg-royal/30 flex items-center justify-center mb-6">
+              <Upload className="h-8 w-8 text-gold" />
+            </div>
+            <CardTitle className="text-xl text-gold">Upload New Memory</CardTitle>
+            <p className="text-gray-400">
+              Add a new video memory (MP4 format, max 1GB)
+            </p>
+            <Button className="bg-gold hover:bg-gold/80 text-black mt-6">
+              <Upload className="h-4 w-4 mr-2" />
+              Select Video
+            </Button>
+          </CardContent>
+        </Card>
 
         {/* Video Cards */}
         {videos.map((video) => (
-          <motion.div key={video.id} variants={item}>
-            <Card className="video-card h-full flex flex-col">
-              <CardHeader className="pb-0 pt-6">
-                <CardTitle className="text-gold text-xl font-playfair">
-                  {video.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="py-4 flex-grow">
-                <div className="aspect-video bg-marble-dark/50 rounded flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-marble-dark to-transparent opacity-70"></div>
-                  <VideoIcon className="h-12 w-12 text-royal-light/50" />
-                </div>
-                <div className="mt-4 text-sm text-gray-400">
-                  {video.assigned ? (
-                    <span className="flex items-center text-emerald-500">
-                      <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Assigned to QR #EQ-{1000 + video.id}
-                    </span>
-                  ) : (
-                    <span className="text-gray-500">Not assigned to any QR code</span>
-                  )}
-                </div>
-              </CardContent>
-              <CardFooter className="pt-0 pb-6 flex justify-between">
-                <Button variant="outline" className="text-red-500 border-red-500/20 hover:bg-red-950/20 hover:text-red-400">
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Delete
-                </Button>
-                {!video.assigned && (
-                  <Button className="memorial-button">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Assign to QR
-                  </Button>
+          <Card key={video.id} className="h-full flex flex-col border-gray-700/30">
+            <CardHeader className="pb-0 pt-6">
+              <CardTitle className="text-gold text-xl font-playfair">
+                {video.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="py-4 flex-grow">
+              <div className="aspect-video bg-marble-dark/50 rounded flex items-center justify-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-marble-dark to-transparent opacity-70"></div>
+                <VideoIcon className="h-12 w-12 text-royal-light/50" />
+              </div>
+              <div className="mt-4 text-sm text-gray-400">
+                {video.assigned ? (
+                  <span className="flex items-center text-emerald-500">
+                    <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Assigned to QR #EQ-{1000 + video.id}
+                  </span>
+                ) : (
+                  <span className="text-gray-500">Not assigned to any QR code</span>
                 )}
-              </CardFooter>
-            </Card>
-          </motion.div>
+              </div>
+            </CardContent>
+            <CardFooter className="pt-0 pb-6 flex justify-between">
+              <Button 
+                variant="outline" 
+                className="text-red-500 border-red-500/20 hover:bg-red-950/20 hover:text-red-400"
+                onClick={() => handleDelete(video.id)}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete
+              </Button>
+              {!video.assigned && (
+                <Button 
+                  className="bg-royal hover:bg-royal-light text-white"
+                  onClick={() => handleAssign(video.id)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Assign to QR
+                </Button>
+              )}
+            </CardFooter>
+          </Card>
         ))}
-      </motion.div>
+      </div>
 
       <div className="text-center mt-16">
         <Link to="/buy">
-          <Button className="memorial-button-gold inline-flex">
+          <Button className="bg-gold hover:bg-gold/80 text-black inline-flex">
             <Plus className="h-4 w-4 mr-2" />
             Purchase New QR Code
           </Button>
