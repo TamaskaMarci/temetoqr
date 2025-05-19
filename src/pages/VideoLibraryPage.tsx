@@ -90,7 +90,7 @@ const VideoLibraryPage = () => {
       <div className="text-center mb-16">
         <div className="inline-block mb-6">
           <img src="/images/logo.svg" alt="EtherQR Logo" className="h-16 mx-auto mb-4" />
-          <h1 className="text-4xl md:text-5xl font-playfair text-gold font-bold tracking-wide">
+          <h1 className="text-4xl md:text-5xl font-playfair text-purple font-bold tracking-wide">
             Your Memory Collection
           </h1>
         </div>
@@ -110,16 +110,16 @@ const VideoLibraryPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Upload New Video Card */}
-        <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-gold cursor-pointer" onClick={triggerFileUpload}>
+        <Card className="elegant-card h-full flex flex-col justify-center border-dashed hover:border-purple cursor-pointer" onClick={triggerFileUpload}>
           <CardContent className="pt-8 pb-2 flex flex-col items-center justify-center h-full text-center space-y-4">
-            <div className="h-16 w-16 rounded-full bg-royal/30 flex items-center justify-center mb-6">
-              <Upload className="h-8 w-8 text-gold" />
+            <div className="h-16 w-16 rounded-full bg-purple/30 flex items-center justify-center mb-6">
+              <Upload className="h-8 w-8 text-purple-light" />
             </div>
-            <CardTitle className="text-xl text-gold">Upload New Memory</CardTitle>
+            <CardTitle className="text-xl text-purple">Upload New Memory</CardTitle>
             <p className="text-gray-400">
               Add a new video memory (MP4 format, max 1GB)
             </p>
-            <Button className="bg-gold hover:bg-gold/80 text-black mt-6" onClick={(e) => {
+            <Button className="bg-purple hover:bg-purple-light text-white mt-6" onClick={(e) => {
               e.stopPropagation();
               triggerFileUpload();
             }}>
@@ -133,14 +133,14 @@ const VideoLibraryPage = () => {
         {videos.map((video) => (
           <Card key={video.id} className="h-full flex flex-col border-gray-700/30">
             <CardHeader className="pb-0 pt-6">
-              <CardTitle className="text-gold text-xl font-playfair">
+              <CardTitle className="text-purple text-xl font-playfair">
                 {video.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="py-4 flex-grow">
               <div className="aspect-video bg-marble-dark/50 rounded flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-marble-dark to-transparent opacity-70"></div>
-                <VideoIcon className="h-12 w-12 text-royal-light/50" />
+                <VideoIcon className="h-12 w-12 text-purple-light/50" />
               </div>
               <div className="mt-4 text-sm text-gray-400">
                 {video.assigned ? (
@@ -166,7 +166,7 @@ const VideoLibraryPage = () => {
               </Button>
               {!video.assigned && (
                 <Button 
-                  className="bg-royal hover:bg-royal-light text-white"
+                  className="bg-purple hover:bg-purple-light text-white"
                   onClick={() => handleAssign(video.id)}
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -180,7 +180,7 @@ const VideoLibraryPage = () => {
 
       <div className="text-center mt-16">
         <Link to="/buy">
-          <Button className="bg-gold hover:bg-gold/80 text-black inline-flex">
+          <Button className="bg-granite hover:bg-granite-light text-white inline-flex">
             <Plus className="h-4 w-4 mr-2" />
             Purchase New QR Code
           </Button>

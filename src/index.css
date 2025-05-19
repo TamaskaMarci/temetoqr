@@ -46,28 +46,28 @@
   }
 
   /* Custom EtherQR Components */
-  .gold-text {
-    @apply text-gold font-playfair;
+  .purple-text {
+    @apply text-purple font-playfair;
   }
 
-  .royal-text {
-    @apply text-royal-light font-playfair;
+  .granite-text {
+    @apply text-granite-light font-playfair;
   }
 
   .elegant-card {
-    @apply bg-marble-light/80 backdrop-blur-md border border-royal/30 rounded-lg shadow-lg transition-all duration-500;
+    @apply bg-marble-light/80 backdrop-blur-md border border-purple/30 rounded-lg shadow-lg transition-all duration-500;
   }
 
   .memorial-button {
-    @apply px-6 py-3 bg-royal hover:bg-royal-light text-white font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
+    @apply px-6 py-3 bg-purple hover:bg-purple-light text-white font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
   }
 
-  .memorial-button-gold {
-    @apply px-6 py-3 bg-gold hover:bg-gold-light text-marble font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
+  .memorial-button-granite {
+    @apply px-6 py-3 bg-granite hover:bg-granite-light text-white font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
   }
 
   .qr-sticker-card {
-    @apply elegant-card p-6 hover:border-gold/50 hover:shadow-gold/20;
+    @apply elegant-card p-6 hover:border-purple/50 hover:shadow-purple/20;
   }
 
   .video-card {

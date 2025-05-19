@@ -53,16 +53,18 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Custom EtherQR colors
-				royal: {
-					DEFAULT: '#4B0082', // Royal Purple
-					light: '#6b2da3',
-					dark: '#360061',
+				// Updated EtherQR colors
+				purple: {
+					DEFAULT: '#9b87f5', // Primary Purple
+					light: '#D6BCFA',   // Light Purple
+					dark: '#6E59A5',    // Dark Purple
+					deep: '#1A1F2C',    // Very Dark Purple (for backgrounds)
 				},
-				gold: {
-					DEFAULT: '#FFD700', // Gold
-					light: '#ffe347',
-					dark: '#cca900',
+				granite: {
+					DEFAULT: '#403E43', // Charcoal Gray
+					light: '#8E9196',   // Neutral Gray
+					dark: '#221F26',    // Dark Charcoal
+					accent: '#9F9EA1',  // Silver Gray Accent
 				},
 				marble: {
 					DEFAULT: '#1A1F2C', // Dark marble base
@@ -102,7 +104,7 @@ export default {
 			},
 			backgroundImage: {
 				'marble-texture': "url('/images/dark-marble-texture.jpg')",
-				'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #FFC107 100%)',
+				'purple-gradient': 'linear-gradient(135deg, #9b87f5 0%, #6E59A5 100%)',
 			},
 			fontFamily: {
 				'playfair': ['Playfair Display', 'serif'],
