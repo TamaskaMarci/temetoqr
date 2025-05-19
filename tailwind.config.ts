@@ -53,12 +53,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Updated EtherQR colors
+				// Updated EtherQR colors to match the uploaded image
 				purple: {
 					DEFAULT: '#9b87f5', // Primary Purple
 					light: '#D6BCFA',   // Light Purple
 					dark: '#6E59A5',    // Dark Purple
-					deep: '#1A1F2C',    // Very Dark Purple (for backgrounds)
+					deep: '#3a2e5a',    // Royal Purple (from the uploaded image)
 				},
 				granite: {
 					DEFAULT: '#403E43', // Charcoal Gray
@@ -73,7 +73,7 @@ export default {
 					accent: '#333333',
 				},
 				gold: {
-					DEFAULT: '#D6A95B', // Gold color
+					DEFAULT: '#D6A95B', // Gold color (matched to uploaded image)
 					light: '#E8C988',   // Light gold
 					dark: '#B58B3D',    // Dark gold
 				},

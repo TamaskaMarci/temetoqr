@@ -59,7 +59,7 @@
   }
 
   .elegant-card {
-    @apply bg-marble-light/80 backdrop-blur-md border border-purple/30 rounded-lg shadow-lg transition-all duration-500;
+    @apply bg-[#3a2e5a]/80 backdrop-blur-md border border-gold/30 rounded-lg shadow-lg transition-all duration-500;
   }
 
   .memorial-button {
@@ -67,7 +67,7 @@
   }
   
   .memorial-button-gold {
-    @apply px-6 py-3 bg-[#D6A95B] hover:bg-[#C99A4D] text-[#1A1F2C] font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
+    @apply px-6 py-3 bg-[#D6A95B] hover:bg-[#C99A4D] text-[#3a2e5a] font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium;
   }
 
   .memorial-button-granite {
@@ -75,7 +75,7 @@
   }
 
   .qr-sticker-card {
-    @apply elegant-card p-6 hover:border-purple/50 hover:shadow-purple/20;
+    @apply elegant-card p-6 hover:border-gold/50 hover:shadow-gold/20;
   }
 
   .video-card {
