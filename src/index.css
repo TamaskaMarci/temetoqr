@@ -53,6 +53,10 @@
   .granite-text {
     @apply text-granite-light font-playfair;
   }
+  
+  .gold-text {
+    @apply text-[#D6A95B] font-playfair;
+  }
 
   .elegant-card {
     @apply bg-marble-light/80 backdrop-blur-md border border-purple/30 rounded-lg shadow-lg transition-all duration-500;
@@ -60,6 +64,10 @@
 
   .memorial-button {
     @apply px-6 py-3 bg-purple hover:bg-purple-light text-white font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
+  }
+  
+  .memorial-button-gold {
+    @apply px-6 py-3 bg-[#D6A95B] hover:bg-[#C99A4D] text-[#1A1F2C] font-playfair rounded-md shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
   }
 
   .memorial-button-granite {

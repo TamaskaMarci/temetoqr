@@ -72,6 +72,11 @@ export default {
 					dark: '#14171f',
 					accent: '#333333',
 				},
+				gold: {
+					DEFAULT: '#D6A95B', // Gold color
+					light: '#E8C988',   // Light gold
+					dark: '#B58B3D',    // Dark gold
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -105,6 +110,7 @@ export default {
 			backgroundImage: {
 				'marble-texture': "url('/images/dark-marble-texture.jpg')",
 				'purple-gradient': 'linear-gradient(135deg, #9b87f5 0%, #6E59A5 100%)',
+				'gold-gradient': 'linear-gradient(135deg, #D6A95B 0%, #B58B3D 100%)',
 			},
 			fontFamily: {
 				'playfair': ['Playfair Display', 'serif'],
